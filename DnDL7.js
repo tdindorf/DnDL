@@ -135,6 +135,14 @@ function showPosition(x, y) {
 		alert ('angle : ' + Math.round(angle));
 	}
 
+function updateLine(q , x , y){
+	var LineID = q.id[3];
+	var EndID = q.id[4];
+	var line = document.getElementById("trace" + LineID);
+		line.setAttributeNS(null, "x"+EndID, x);
+		line.setAttributeNS(null, "y"+EndID, y);
+	}
+	
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // 			++++++++++  tooltip +++++++++++++++
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
