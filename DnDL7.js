@@ -11,6 +11,7 @@
 	var bolHasYpart = false;	//****** INTERNAL_INIT ******// for XY DnD questions
 	var bolHideAnswer = false;	//****** INTERNAL_INIT ******// for pure DnD questions
 	var bolPolar = 0;	//****** INTERNAL_INIT ******// polar or cartesian
+	var bolPol = 0;
 
 	var ym = [];
 	var hRays = [];
