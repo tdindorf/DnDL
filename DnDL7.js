@@ -75,14 +75,14 @@ function dropLook (e) {		// reset to pre-Grab appearance
 		e.setAttributeNS(null, 'fill', TargetColor);
 	}
 
-function Grab(evt) {		// fire on mouse down
+function Grab(evt) {
 	if (hasClass(evt.target, 'protected')) {
 		return;
 		}
 	DragTarget = evt.target;
 	saveOffset(DragTarget);
-	bolAnswrEl = (DragTarget == answrEl ? true : false);
-	grabLook (DragTarget ); // change apprnc when selctd
+	bolAnswrEl = ((DragTarget == answrEl || DragTarget == answrEl1) ? true : false);
+	grabLook (DragTarget );
 	}
 
 function Drag(evt) {		// fire on mouse move
