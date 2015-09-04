@@ -57,8 +57,10 @@ function Init(evt) {
 
 function moveTarget (e, x, y) {	// if target is a circle or not
 	var xyprefix = (e.tagName == 'circle' ? 'c' : '');
-		e.setAttributeNS(null, xyprefix +'x', x - offsetX);
-		e.setAttributeNS(null, xyprefix +'y', y - offsetY);
+		x = x - offsetX;
+		y = y - offsetY;
+		e.setAttributeNS(null, xyprefix +'x', x);
+		e.setAttributeNS(null, xyprefix +'y', y);
 		// if tooltip, drag it too
 	updateLine(e , x , y);	// if other changes needed
 	}
