@@ -92,7 +92,7 @@ function Drag(evt) {		// fire on mouse move
 	if (DragTarget) {
 		moveTarget (DragTarget, p.x, p.y);
 		         if (bolAnswrEl && !bolSubmitted) {
-			updateInput(answerFld, answerFldNext, bolPolar);
+			updateInput(answerFld, answerFldNext, bolPol);
 			}
 		}
 	}
@@ -517,7 +517,44 @@ function placeElement (e, x, y) {
 		}
 	}
 
-function updateInput(ansFldX, ansFldY, bPolar ){
+function updateInput(ansFldX, ansFldY, bP){
+	var fldX = 0;
+	var fldY = 0;
+	bP = (bP || 0);	// enter into input field(s); 1st: angle or x
+	switch(bP){	// 0 or none: x, y / 1: theta, (r) / 2: dx, dy
+	default:
+		var fldX = Math.round(10*p.x/pxScale)/10;
+		var fldY = Math.round(10*p.y/pxScale)/10;
+		break;
+	case 1:
+		var fldX = Math.round(XYtoA (p.x, p.y-ym[0])) + '°';
+		var fldY = 0;
+		break;
+	case 2:
+		if (DragTarget == answrEl1) {	// if moving start
+			vector.start.x = p.x - offsetX;
+			vector.start.y = p.y - offsetY;
+			} 
+			else {			// must be moving end
+			vector.end.x = p.x - offsetX;
+			vector.end.y = p.y - offsetY;
+			}
+			var vectordx = vector.end.x - vector.start.x ;
+			var vectordy = vector.end.y - vector.start.y;
+
+		var fldX = Math.round(10*vectordx/pxScale)/10;
+		var fldY = Math.round(10*vectordy/pxScale)/10;
+		break;
+	}
+	if (ansFldX) {
+		ansFldX.value = fldX;
+		}
+	if (ansFldY) {
+		ansFldY.value = fldY;
+		}
+	}
+	
+/*function updateInput(ansFldX, ansFldY, bPolar ){
 	bPolar = (bPolar || false);	// enter into input field(s); 1st: angle or x
 	if (ansFldX) {
 		ansFldX.value = (bPolar ? Math.round(XYtoA (p.x, p.y-ym[0])) + '°' : Math.round(10*p.x/pxScale)/10);
@@ -525,7 +562,7 @@ function updateInput(ansFldX, ansFldY, bPolar ){
 	if (ansFldY) {		// if 2nd: y
 		ansFldY.value = Math.round(10*p.y/pxScale)/10;
 		}
-	}
+	}*/
 
 function fillAnswer(el) {		// adds color to dragged element
 	var ansColor = 'null';
