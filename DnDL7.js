@@ -16,7 +16,7 @@
 
 	var ym = [];
 	var hRays = [];
-	var vector = {start:{x:0,y:0},end:{x:1,y:0}};	// e.g.	vector.start.x
+	var vector = {start:{x:0,y:0},end:{x:50,y:0}};	// e.g.	vector.start.x !! in px !!
 
 	var DragTarget = null;	// for 'if (DragTarget)' in 'Drag'
 	var TargetColor = null, TargetStroke = null;
