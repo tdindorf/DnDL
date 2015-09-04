@@ -473,20 +473,20 @@ function findParentQuestion(SVGName, predicate) {
 		}
 	}
 
-function plotPrevious (e, ansFldX, ansFldY, bPolar) {
+function plotPrevious (e, ansFldX, ansFldY, bPolar, bPol) {
 	bPolar = (bPolar || false);
-	var x, y, angle;
-	var xyprefix = (e.tagName == 'circle' ? 'c' : '');
-		x = e.getAttributeNS(null, xyprefix +'x');
+	bPol = (bPol || 0);
+	var x, y, angle, radius;
+	var xyprefix = (e.tagName == 'circle' ? 'c' : '');	// cx vs x
+		x = e.getAttributeNS(null, xyprefix +'x');	// where are you now?
   		y = e.getAttributeNS(null, xyprefix +'y');
-	if (bPolar) {				// if polar: 1 field, angle to x y
+	if (bPolar) {				// if polar: 1 field, angle to x y, possibly radius
 		angle = (ansFldX.value !=="" ? stripUnits(ansFldX.value) : 0);
-
-		var radius = Math.sqrt(x*x + y*y);	// use original ray's px length
+		radius = Math.sqrt(x*x + y*y);	// use original ray's px length
 		x = AtoXY (angle, radius).x;
 		y = AtoXY (angle, radius).y + ym[0]*pxScale;      // !!! yoffset !!!
-
-		} else {				// if cartesian, 1 field: x
+		}	// angle and radius
+		else {				// if cartesian, 1 field: x
 		x = (ansFldX.value !=="" ? ansFldX.value*pxScale : x);
 			if (ansFldY) {		// if cartesian, 2nd field: y
 		y = (ansFldY.value !=="" ? ansFldY.value*pxScale  : y);
@@ -494,8 +494,10 @@ function plotPrevious (e, ansFldX, ansFldY, bPolar) {
 		}
 	e.setAttributeNS(null, xyprefix +'x', x);		// place point
 	e.setAttributeNS(null, xyprefix +'y', y);
-	if (bPolar) {
-		updateLine(e , x , y);		// add ray to point
+	if (bPolar || bPol) {
+		updateLine(e , x , y);		// add ray to points 82, 81
+		}
+	if (bPolar){
 		updateArc(x, y);			// add arc to ray
 		}
 	}
