@@ -8,6 +8,7 @@
 	var pxScale = 50;		//****** INTERNAL_INIT ******
 
 	var answrElName = null;	//****** INTERNAL_INIT ******// for DnD questions
+	var answrElName1 = null;	//****** INTERNAL_INIT ******// for DnD questions
 	var bolHasYpart = false;	//****** INTERNAL_INIT ******// for XY DnD questions
 	var bolHideAnswer = false;	//****** INTERNAL_INIT ******// for pure DnD questions
 	var bolPolar = 0;	//****** INTERNAL_INIT ******// polar or cartesian
@@ -30,6 +31,7 @@
 	var bolSubmitted  = false;	// to edit or not to edit
 	var bolAnswrEl = false;	// use target data for XY answer values
 	var answrEl = null;
+	var answrEl1 = null;
 
 	var pNode = null, pNodeNext = null;
 	var currentID = null, nextID = null;
@@ -446,7 +448,7 @@ function establishXYquestionParts(name, bLookforY) {	// find pNode and pN-Next, 
 			}
 	//alert (pNodeNext);
 		answerFldNext  = (pNodeNext ? pNodeNext.querySelector("input[type=text]") : null);
-		plotPrevious (answrEl, answerFld, answerFldNext, bolPolar);
+		plotPrevious (answrEl, answerFld, answerFldNext, bolPolar, bolPol);
 		if (bolHideAnswer) {
 			hideAnswerFlds(answerFld, answerFldNext);
 			}
@@ -523,12 +525,12 @@ function updateInput(ansFldX, ansFldY, bP){
 	bP = (bP || 0);	// enter into input field(s); 1st: angle or x
 	switch(bP){	// 0 or none: x, y / 1: theta, (r) / 2: dx, dy
 	default:
-		var fldX = Math.round(10*p.x/pxScale)/10;
-		var fldY = Math.round(10*p.y/pxScale)/10;
+		fldX = Math.round(10*p.x/pxScale)/10;
+		fldY = Math.round(10*p.y/pxScale)/10;
 		break;
 	case 1:
-		var fldX = Math.round(XYtoA (p.x, p.y-ym[0])) + '°';
-		var fldY = 0;
+		fldX = Math.round(XYtoA (p.x, p.y-ym[0])) + '°';
+		fldY = 0;
 		break;
 	case 2:
 		if (DragTarget == answrEl1) {	// if moving start
@@ -542,8 +544,8 @@ function updateInput(ansFldX, ansFldY, bP){
 			var vectordx = vector.end.x - vector.start.x ;
 			var vectordy = vector.end.y - vector.start.y;
 
-		var fldX = Math.round(10*vectordx/pxScale)/10;
-		var fldY = Math.round(10*vectordy/pxScale)/10;
+		fldX = Math.round(10*vectordx/pxScale)/10;
+		fldY = Math.round(10*vectordy/pxScale)/10;
 		break;
 	}
 	if (ansFldX) {
