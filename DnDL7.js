@@ -102,10 +102,6 @@ function Drag(evt) {		// fire on mouse move
 function Drop(evt) {		// fire on mouse up
 	if (DragTarget) {
 		dropLook (DragTarget ); // reset appearance
-		//if (bolAnswrEl) {
-			//showPosition(p.x, p.y)
-			//};
-		   // DragTarget.setAttributeNS(null, 'pointer-events', 'all');
 		DragTarget = null;
 		}
 	}
@@ -125,16 +121,6 @@ function saveOffset(e){
 	offsetY = p.y - eY;
 	}
 
-function showPosition(x, y) { 
-// used for testing with alerts ( vs. continuous output)
-
-	//var x = Math.round(p.x/5)/10;
-	//var y = Math.floor(p.y/5)/10;
-        	var angle = r2d(Math.atan2(y, x));
-	//var z = 1000*Math.abs(x) + Math.abs(y)
-		alert ('angle : ' + Math.round(angle));
-	}
-
 function updateLine(q , x , y){
 	var LineID = q.id[3];
 	var EndID = q.id[4];
@@ -143,6 +129,13 @@ function updateLine(q , x , y){
 		line.setAttributeNS(null, "y"+EndID, y);
 	}
 	
+function moveZLabel(e, x1, x2, y1, y2) {
+	labelXpx = (x1 + x2)/2;
+	labelYpx = -(y1 + y2)/2 + 5;
+
+	e.setAttributeNS(null, 'x', labelXpx);
+	e.setAttributeNS(null, 'y', labelYpx);
+	}
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // 			++++++++++  tooltip +++++++++++++++
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -422,24 +415,6 @@ function fixBoundaryPoints(rayN){
 	}
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// ++++++++ reveal and show, not needed with 'bolean: +++++++++++++++
-// ++  bIn = true, bRe = true , bVi = true;  ImgVsbl = false ; //visible rays ++
-// drawRayDiagram(rayN, 0 | bISubmitted | 1 , 0 | bISubmitted | 1 , 0 | bISubmitted | 1  ) ++
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-	/*if(ImgVsbl){
-	var ob = document.getElementById("imagePoint");	// 'imagePoint'
-		ob.setAttributeNS(null, "cx", xi);
-		ob.setAttributeNS(null, "cy", yi);
-		ob.setAttributeNS(null, "fill", "red");
-		}
-
-function showVirtual(){        // shows virtual rays and image after submit
-	var ob = document.getElementById("raysV");
-      ob.setAttributeNS(null, "stroke", "grey");
-	}*/
-
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // +++++++++++  functions that interact with OTHER elements on THIS page +++++++++++++
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -488,8 +463,8 @@ function plotPrevious (e, ansFldX, ansFldY, bPolar, bPol) {
 	bPol = (bPol || 0);
 	var x, y, angle, radius;
 	var xyprefix = (e.tagName == 'circle' ? 'c' : '');	// cx vs x
-		x = e.getAttributeNS(null, xyprefix +'x');	// where are you now?
-  		y = e.getAttributeNS(null, xyprefix +'y');
+		x = parseInt(e.getAttributeNS(null, xyprefix +'x'));	// where are you now?
+  		y = parseInt(e.getAttributeNS(null, xyprefix +'y'));
 	if (bPolar) {				// if polar: 1 field, angle to x y, possibly radius
 		angle = (ansFldX.value !=="" ? stripUnits(ansFldX.value) : 0);
 		radius = Math.sqrt(x*x + y*y);	// use original ray's px length
@@ -504,6 +479,7 @@ function plotPrevious (e, ansFldX, ansFldY, bPolar, bPol) {
 		}
 	e.setAttributeNS(null, xyprefix +'x', x);		// place point
 	e.setAttributeNS(null, xyprefix +'y', y);
+	
 	if (bPolar || bPol) {
 		updateLine(e , x , y);		// add ray to points 82, 81
 		}
@@ -587,6 +563,7 @@ function fillAnswer(el) {		// adds color to dragged element
 		return;
 		}
 	}
+
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // 		++++++++++++++ hide functions ++++++++++++++
